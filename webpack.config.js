@@ -19,5 +19,29 @@ module.exports = {
         contentBase: './public' //fala onde vai ser a pasta base onde ele vai carregar todos os arquivos. 
         //Vai ser criado o arquivo index.html que vai fazer referencia ao bundle.js para validar 
         //oq o webpack construiu e se esta gerando o efeito esperado
+    },
+    module: {
+        //quais arquivos ele vai carregar
+        // loaders: [{
+        //     test: /.js?$/, //vai carregar todos os arquivos .js
+        //     loader: 'babel-loader', //vai carregar o loader do babel que vai estar nas dependencias
+        //     exclude: /node_modules/, //não vai carregar os outros arquivos do node_module
+        //     //o que eu queroque esse loader interprete, es2015, react, typescript
+        //     query: {
+        //         presets: ['es2015']
+        //     }
+        // }]
+        rules: [
+            {
+              test: /\.m?js$/,
+              exclude: /(node_modules|bower_components)/,
+              use: {
+                loader: 'babel-loader',
+                options: {
+                  presets: ['@babel/preset-env']
+                }
+              }
+            }
+          ]
     }
 }
