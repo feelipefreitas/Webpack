@@ -1,4 +1,6 @@
 const webpack = require('webpack');
+// const ExtractTextPlugin = require('extract-text-webpack-plugin');
+const MiniCssExtractPlugin = require("mini-css-extract-plugin");
 
 //Vai exportar o objeto que vai conter todas as configurações da aplicação
 //Se precisar fazer um tranpile do angular ou react ,coloca aqui
@@ -20,6 +22,15 @@ module.exports = {
         //Vai ser criado o arquivo index.html que vai fazer referencia ao bundle.js para validar 
         //oq o webpack construiu e se esta gerando o efeito esperado
     },
+    plugins: [
+        // new ExtractTextPlugin('app.css')
+        new MiniCssExtractPlugin({
+            // Options similar to the same options in webpackOptions.output
+            // both options are optional
+            filename: "app.css",
+            chunkFilename: "style.css"
+          })
+    ],
     module: {
         //quais arquivos ele vai carregar
         // loaders: [{
@@ -41,7 +52,25 @@ module.exports = {
                   presets: ['@babel/preset-env', "@babel/preset-react"]
                 }
               }
-            }
+            },
+            // {
+            //     test: /\.css$/,
+            //     use: [ 'style-loader', 'css-loader' ]
+            // }
+            {
+                test: /\.css$/,
+                use: [
+                  {
+                    loader: MiniCssExtractPlugin.loader,
+                    options: {
+                      // you can specify a publicPath here
+                      // by default it use publicPath in webpackOptions.output
+                      publicPath: '../'
+                    }
+                  },
+                  "css-loader"
+                ]
+              }
           ]
     }
 }
